@@ -1,43 +1,49 @@
-import { CheckIcon } from 'lucide-react';
+import { Check } from 'lucide-react';
 
 interface ProgressBarProps {
   currentStep: number;
   totalSteps: number;
-  completedSteps: number[];
+  completedSteps?: number[];
 }
 
-export const ProgressBar: React.FC<ProgressBarProps> = ({ 
-  currentStep, 
-  totalSteps, 
-  completedSteps 
-}) => (
-  <div className="mb-8">
-    <div className="flex justify-between mb-2">
-      {Array.from({ length: totalSteps }, (_, i) => (
-        <div
-          key={i}
-          className={`flex flex-col items-center ${i < currentStep ? 'text-[#FF5733]' : 'text-white/50'}`}
-        >
-          <div 
-            className={`w-8 h-8 rounded-full flex items-center justify-center mb-2 transition-all duration-300
-              ${i + 1 === currentStep ? 'bg-[#FF5733] text-white scale-110' : 
-                i < currentStep ? 'bg-[#FF5733]/20 text-[#FF5733]' : 'bg-white/20 text-white/50'}`}
-          >
-            {i < currentStep ? (
-              <CheckIcon className="w-5 h-5" />
-            ) : (
-              <span>{i + 1}</span>
-            )}
-          </div>
-          <span className="text-xs">{`Etapa ${i + 1}`}</span>
-        </div>
-      ))}
+export const ProgressBar = ({ currentStep, totalSteps, completedSteps = [] }: ProgressBarProps) => {
+  return (
+    <div className="w-full">
+      <div className="flex items-center justify-between mb-2">
+        {Array.from({ length: totalSteps }).map((_, index) => {
+          const stepNumber = index + 1;
+          const isCompleted = completedSteps.includes(stepNumber);
+          const isCurrent = currentStep === stepNumber;
+          
+          return (
+            <div 
+              key={index}
+              className={`
+                relative flex items-center justify-center
+                w-7 h-7 rounded-full text-xs font-medium
+                ${isCompleted 
+                  ? 'bg-[#FF5733] text-white' 
+                  : isCurrent
+                    ? 'bg-white/20 text-white border-2 border-[#FF5733]'
+                    : 'bg-white/10 text-white/50'}
+              `}
+            >
+              {isCompleted ? (
+                <Check className="w-4 h-4" />
+              ) : (
+                stepNumber
+              )}
+            </div>
+          );
+        })}
+      </div>
+      
+      <div className="relative h-2 bg-white/10 rounded-full overflow-hidden">
+        <div 
+          className="absolute left-0 top-0 h-full bg-gradient-to-r from-[#FF5733] to-[#ff6242] transition-all duration-300"
+          style={{ width: `${(currentStep / totalSteps) * 100}%` }}
+        />
+      </div>
     </div>
-    <div className="h-2 bg-white/20 rounded-full overflow-hidden">
-      <div
-        className="h-full bg-[#FF5733] transition-all duration-500 ease-out"
-        style={{ width: `${(currentStep / totalSteps) * 100}%` }}
-      />
-    </div>
-  </div>
-); 
+  );
+}; 

@@ -21,4 +21,24 @@
   0% { transform: scale(1); }
   50% { transform: scale(1.05); }
   100% { transform: scale(1); }
+}
+
+.mobile-form-container {
+  @apply overflow-y-auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.2) transparent;
+}
+
+.mobile-form-container::-webkit-scrollbar {
+  width: 4px;
+}
+
+.mobile-form-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.mobile-form-container::-webkit-scrollbar-thumb {
+  background-color: rgba(255,255,255,0.2);
+  border-radius: 20px;
 } 

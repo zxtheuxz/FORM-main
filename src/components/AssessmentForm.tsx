@@ -101,6 +101,7 @@ export default function AssessmentForm() {
     {
       title: '4. Há quanto tempo está parado sem fazer atividade física ou musculação',
       field: 'inactive_period',
+      description: 'Esta informação nos ajuda a definir a intensidade inicial do seu treino',
       options: [
         { value: 'nunca', label: 'Nunca pratiquei atividade física' },
         { value: 'ate-6-meses', label: 'Até 6 meses parado' },
@@ -111,6 +112,7 @@ export default function AssessmentForm() {
     {
       title: '5. Diga por quanto tempo praticou ou pratica musculação',
       field: 'experience_period',
+      description: 'Seu histórico com musculação nos ajuda a personalizar seu programa',
       options: [
         { value: 'nunca', label: 'Nunca pratiquei musculação' },
         { value: '1-6-meses', label: '1 a 6 meses' },
@@ -122,6 +124,7 @@ export default function AssessmentForm() {
     {
       title: '6. Qual disponibilidade de tempo por semana você tem para treinar',
       field: 'availability',
+      description: 'Vamos adaptar seu treino à sua rotina para garantir consistência',
       options: [
         { value: '3-dias', label: '3 dias por semana' },
         { value: '4-dias', label: '4 dias por semana' },
@@ -132,6 +135,7 @@ export default function AssessmentForm() {
     {
       title: '7. Diga em que nível de treinamento você acha que se enquadra',
       field: 'training_level',
+      description: 'Sua auto-avaliação nos ajuda a definir a complexidade dos exercícios',
       options: [
         { value: 'sem-experiencia', label: 'Nunca tive experiência c/musculação' },
         { value: 'iniciante', label: 'Iniciante' },
@@ -142,6 +146,7 @@ export default function AssessmentForm() {
     {
       title: '8. Sente dores no peito, tontura ou falta de ar durante atividade física',
       field: 'chest_pain',
+      description: 'Importante para avaliarmos a necessidade de acompanhamento médico',
       options: [
         { value: 'sim', label: 'Sim' },
         { value: 'nao', label: 'Não' }
@@ -150,6 +155,7 @@ export default function AssessmentForm() {
     {
       title: '9. Faz uso de algum medicamento que impossibilite a prática de atividade física',
       field: 'medication',
+      description: 'Precisamos saber se há restrições médicas para a prática de exercícios',
       options: [
         { value: 'sim', label: 'Sim' },
         { value: 'nao', label: 'Não' }
@@ -158,6 +164,7 @@ export default function AssessmentForm() {
     {
       title: '10. Tem alguma doença pré existente',
       field: 'pre_existing_condition',
+      description: 'Estas informações são importantes para sua segurança durante os treinos',
       options: [
         { value: 'nao', label: 'Não' },
         { value: 'diabetes', label: 'Diabetes' },
@@ -167,6 +174,7 @@ export default function AssessmentForm() {
     {
       title: '11. Algum tipo de doença que impossibilite a prática de atividade física ou leve risco a sua vida',
       field: 'risk_condition',
+      description: 'Sua segurança é nossa prioridade',
       options: [
         { value: 'sim', label: 'Sim' },
         { value: 'nao', label: 'Não' }
@@ -175,6 +183,7 @@ export default function AssessmentForm() {
     {
       title: '12. Tem alguma lesão que impossibilite você de fazer alguma atividade física',
       field: 'injury',
+      description: 'Precisamos adaptar os exercícios às suas condições físicas',
       options: [
         { value: 'sim', label: 'Sim' },
         { value: 'nao', label: 'Não' }
@@ -357,6 +366,8 @@ export default function AssessmentForm() {
     </div>
   );
 
+  const optionButtonClasses = 'w-full text-left p-4 rounded-xl transition-all duration-300 flex items-center';
+
   if (!phoneId) {
     return null; // Não renderiza nada enquanto redireciona
   }
@@ -368,136 +379,148 @@ export default function AssessmentForm() {
       totalSteps={totalSteps}
       completedSteps={[]}
     >
-      {currentStep <= questions.length && currentQuestion ? (
-        <div className="space-y-6">
-          <FormField
-            label={currentQuestion.title}
-            description={currentQuestion.description}
-          >
-            <div className="grid gap-3">
-              {currentQuestion.options.map((option) => (
-                <button
-                  key={option.value}
-                  onClick={() => {
-                    if (currentQuestion.field === 'chest_pain') {
-                      handleInputChange('chest_pain', option.value === 'sim');
-                      if (option.value === 'sim') {
-                        handleInputChange('medical_clearance', null);
-                      }
-                    } else {
-                      handleInputChange(currentQuestion.field as keyof FormData, option.value);
-                    }
-                  }}
-                  className={`
-                    w-full text-left p-4 rounded-xl transition-all duration-300
-                    flex items-center
-                    ${formData[currentQuestion.field as keyof FormData] === option.value
-                      ? 'bg-gradient-to-r from-[#FF5733] to-[#ff6242] text-white'
-                      : 'bg-white/10 text-white hover:bg-white/20'}
-                    transform hover:scale-105
-                  `}
-                >
-                  {option.label}
-                </button>
-              ))}
-            </div>
-          </FormField>
-
-          {currentQuestion.field === 'chest_pain' && formData.chest_pain && (
-            <div className="mt-8 space-y-6">
-              <h3 className="text-xl font-bold text-white">
-                Tem algum laudo médico que permita que você faça atividade física?
-              </h3>
-              <div className="space-y-3">
-                <button
-                  onClick={() => {
-                    handleInputChange('medical_clearance', true);
-                  }}
-                  className={`w-full text-left p-4 rounded-xl transition-all duration-200 ${
-                    formData.medical_clearance === true
-                      ? 'bg-[#FF5733] text-white'
-                      : 'bg-white/10 text-white hover:bg-white/20'
-                  }`}
-                >
-                  Sim
-                </button>
-                <button
-                  onClick={() => {
-                    handleInputChange('medical_clearance', false);
-                  }}
-                  className={`w-full text-left p-4 rounded-xl transition-all duration-200 ${
-                    formData.medical_clearance === false
-                      ? 'bg-[#FF5733] text-white'
-                      : 'bg-white/10 text-white hover:bg-white/20'
-                  }`}
-                >
-                  Não
-                </button>
-              </div>
-
-              {formData.medical_clearance && (
-                <div className="mt-4">
-                  <p className="text-white/90 mb-4">
-                    Por favor, faça o upload do seu laudo médico para continuar
-                  </p>
-                  <MedicalDocumentUpload
-                    phoneId={location.state?.phoneId}
-                    currentFile={formData.medical_document}
-                    onFileUpload={(file, url) => {
-                      handleInputChange('medical_document', file);
-                      handleInputChange('medical_document_url', url);
-                      if (file && url) {
-                        handleNext();
+      <div className="flex-1 overflow-y-auto pb-16 sm:pb-0">
+        {currentStep <= questions.length && currentQuestion ? (
+          <div className="space-y-4">
+            <FormField
+              label={currentQuestion.title}
+              description={currentQuestion.description}
+            >
+              <div className="grid gap-2 mt-2">
+                {currentQuestion.options.map((option) => (
+                  <button
+                    key={option.value}
+                    onClick={() => {
+                      if (currentQuestion.field === 'chest_pain') {
+                        handleInputChange('chest_pain', option.value === 'sim');
+                        if (option.value === 'sim') {
+                          handleInputChange('medical_clearance', null);
+                        }
+                      } else {
+                        handleInputChange(currentQuestion.field as keyof FormData, option.value);
                       }
                     }}
+                    className={`
+                      w-full text-left p-3 rounded-xl transition-all duration-300
+                      flex items-center text-sm
+                      ${formData[currentQuestion.field as keyof FormData] === option.value
+                        ? 'bg-gradient-to-r from-[#FF5733] to-[#ff6242] text-white'
+                        : 'bg-white/10 text-white hover:bg-white/20'}
+                    `}
+                  >
+                    <div className="w-4 h-4 rounded-full border-2 border-current flex items-center justify-center mr-2">
+                      {formData[currentQuestion.field as keyof FormData] === option.value && (
+                        <div className="w-2 h-2 rounded-full bg-current" />
+                      )}
+                    </div>
+                    <span className="flex-1">{option.label}</span>
+                  </button>
+                ))}
+              </div>
+            </FormField>
+
+            {currentQuestion.field === 'chest_pain' && formData.chest_pain && (
+              <div className="mt-6 space-y-4 bg-white/5 rounded-xl p-4">
+                <h3 className="text-lg font-semibold text-white">
+                  Tem algum laudo médico que permita que você faça atividade física?
+                </h3>
+                <div className="grid gap-2">
+                  <button
+                    onClick={() => {
+                      handleInputChange('medical_clearance', true);
+                    }}
+                    className={`w-full text-left p-4 rounded-xl transition-all duration-200 ${
+                      formData.medical_clearance === true
+                        ? 'bg-[#FF5733] text-white'
+                        : 'bg-white/10 text-white hover:bg-white/20'
+                    }`}
+                  >
+                    Sim
+                  </button>
+                  <button
+                    onClick={() => {
+                      handleInputChange('medical_clearance', false);
+                    }}
+                    className={`w-full text-left p-4 rounded-xl transition-all duration-200 ${
+                      formData.medical_clearance === false
+                        ? 'bg-[#FF5733] text-white'
+                        : 'bg-white/10 text-white hover:bg-white/20'
+                    }`}
+                  >
+                    Não
+                  </button>
+                </div>
+
+                {formData.medical_clearance && (
+                  <div className="mt-4">
+                    <p className="text-white/90 mb-4">
+                      Por favor, faça o upload do seu laudo médico para continuar
+                    </p>
+                    <MedicalDocumentUpload
+                      phoneId={location.state?.phoneId}
+                      currentFile={formData.medical_document}
+                      onFileUpload={(file, url) => {
+                        handleInputChange('medical_document', file);
+                        handleInputChange('medical_document_url', url);
+                        if (file && url) {
+                          handleNext();
+                        }
+                      }}
+                    />
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        ) : currentStep === questions.length + 1 ? (
+          <div className="space-y-6">
+            <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">
+              Termo de Acordo
+            </h2>
+            <div className="bg-white/5 p-4 sm:p-6 rounded-xl">
+              <label className="flex items-start gap-4 text-white cursor-pointer group">
+                <div className="relative flex items-center mt-1">
+                  <input
+                    type="checkbox"
+                    checked={formData.agreement}
+                    onChange={(e) => handleInputChange('agreement', e.target.checked)}
+                    className="w-5 h-5 border-2 border-white/20 rounded 
+                      checked:bg-[#FF5733] checked:border-[#FF5733]
+                      focus:ring-2 focus:ring-[#FF5733]/20 focus:outline-none
+                      transition-all duration-200"
                   />
                 </div>
-              )}
+                <span className="text-sm sm:text-base text-white/90 group-hover:text-white transition-colors">
+                  CERTIFICO-ME ESTAR CIENTE DE TODAS AS INFORMAÇÕES AQUI PRESTADAS, 
+                  TENDO TOTAL RESPONSABILIDADE PELA VERACIDADE DAS MINHAS RESPOSTAS 
+                  E ATESTANDO ESTAR APTO A REALIZAR ATIVIDADE FÍSICA.
+                </span>
+              </label>
             </div>
-          )}
-        </div>
-      ) : currentStep === questions.length + 1 ? (
-        <div className="space-y-6">
-          <h2 className="text-2xl font-bold text-white mb-6">
-            Termo de Acordo
-          </h2>
-          <div className="bg-white/10 p-6 rounded-xl">
-            <label className="flex items-start space-x-4 text-white cursor-pointer">
-              <input
-                type="checkbox"
-                checked={formData.agreement}
-                onChange={(e) => {
-                  handleInputChange('agreement', e.target.checked);
-                }}
-                className="mt-1"
-              />
-              <span className="text-sm">
-                CERTIFICO-ME ESTAR CIENTE DE TODAS AS INFORMAÇÕES AQUI PRESTADAS, 
-                TENDO TOTAL RESPONSABILIDADE PELA VERACIDADE DAS MINHAS RESPOSTAS 
-                E ATESTANDO ESTAR APTO A REALIZAR ATIVIDADE FÍSICA.
-              </span>
-            </label>
           </div>
-        </div>
-      ) : (
-        <div className="space-y-6">
-          <h2 className="text-2xl font-bold text-white mb-6">
-            Revisão e Envio
-          </h2>
-          <div className="bg-white/10 p-6 rounded-xl">
-            <p className="text-white mb-4">
-              Por favor, revise suas respostas e clique em Finalizar para enviar o formulário.
-            </p>
-            <button
-              onClick={handleSubmit}
-              className="w-full px-6 py-3 rounded-xl bg-[#FF5733] text-white hover:bg-[#ff6242] transition-all flex items-center justify-center"
-            >
-              Finalizar Avaliação
-              <CheckCircle className="ml-2" size={20} />
-            </button>
+        ) : (
+          <div className="space-y-6">
+            <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">
+              Revisão e Envio
+            </h2>
+            <div className="bg-white/5 p-4 sm:p-6 rounded-xl">
+              <p className="text-white/90 mb-6">
+                Por favor, revise suas respostas e clique em Finalizar para enviar o formulário.
+              </p>
+              <button
+                onClick={handleSubmit}
+                className="w-full bg-gradient-to-r from-[#FF5733] to-[#ff6242] 
+                  text-white py-3 rounded-xl font-semibold 
+                  hover:scale-105 transition-all transform
+                  flex items-center justify-center gap-2"
+              >
+                Finalizar Avaliação
+                <CheckCircle className="w-5 h-5" />
+              </button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
       <FormButtons
         currentStep={currentStep}

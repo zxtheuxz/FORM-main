@@ -49,12 +49,12 @@ export default function FormSelection() {
       currentStep={1}
       totalSteps={1}
     >
-      <div className="grid md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
         <button
           onClick={() => handleFormSelect('gym')}
           disabled={hasGymAssessment}
           className={`
-            p-8 rounded-xl transition-all duration-300 group
+            p-6 sm:p-8 rounded-xl transition-all duration-300 group
             border border-white/10 backdrop-blur-lg
             ${hasGymAssessment 
               ? 'bg-white/5 cursor-not-allowed opacity-60' 
@@ -62,16 +62,19 @@ export default function FormSelection() {
           `}
         >
           <div className="flex flex-col items-center">
-            <div className="w-16 h-16 rounded-full bg-[#FF5733]/10 flex items-center justify-center mb-4">
-              <Dumbbell className="w-8 h-8 text-[#FF5733]" />
+            <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-[#FF5733]/10 
+              flex items-center justify-center mb-3 sm:mb-4">
+              <Dumbbell className="w-6 h-6 sm:w-8 sm:h-8 text-[#FF5733]" />
             </div>
-            <h2 className="text-xl font-semibold text-white mb-2">
+            <h2 className="text-lg sm:text-xl font-semibold text-white mb-2">
               Avaliação Física
             </h2>
             {hasGymAssessment && (
               <div className="flex items-center gap-2 text-yellow-300 mt-2">
-                <AlertCircle size={16} />
-                <span className="text-sm">Formulário já preenchido</span>
+                <AlertCircle size={14} className="sm:w-4 sm:h-4" />
+                <span className="text-xs sm:text-sm">
+                  Formulário já preenchido
+                </span>
               </div>
             )}
           </div>
@@ -81,7 +84,7 @@ export default function FormSelection() {
           onClick={() => handleFormSelect('nutrition')}
           disabled={hasNutritionalAssessment}
           className={`
-            p-8 rounded-xl transition-all duration-300 group
+            p-6 sm:p-8 rounded-xl transition-all duration-300 group
             border border-white/10 backdrop-blur-lg
             ${hasNutritionalAssessment 
               ? 'bg-white/5 cursor-not-allowed opacity-60' 
@@ -89,16 +92,19 @@ export default function FormSelection() {
           `}
         >
           <div className="flex flex-col items-center">
-            <div className="w-16 h-16 rounded-full bg-[#FF5733]/10 flex items-center justify-center mb-4">
-              <Apple className="w-8 h-8 text-[#FF5733]" />
+            <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-[#FF5733]/10 
+              flex items-center justify-center mb-3 sm:mb-4">
+              <Apple className="w-6 h-6 sm:w-8 sm:h-8 text-[#FF5733]" />
             </div>
-            <h2 className="text-xl font-semibold text-white mb-2">
+            <h2 className="text-lg sm:text-xl font-semibold text-white mb-2">
               Avaliação Nutricional
             </h2>
             {hasNutritionalAssessment && (
               <div className="flex items-center gap-2 text-yellow-300 mt-2">
-                <AlertCircle size={16} />
-                <span className="text-sm">Formulário já preenchido</span>
+                <AlertCircle size={14} className="sm:w-4 sm:h-4" />
+                <span className="text-xs sm:text-sm">
+                  Formulário já preenchido
+                </span>
               </div>
             )}
           </div>

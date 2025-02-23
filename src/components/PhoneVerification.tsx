@@ -69,27 +69,29 @@ export default function PhoneVerification() {
       currentStep={1}
       totalSteps={1}
     >
-      <div className="grid md:grid-cols-2 gap-8 items-center">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
         <div>
-          <p className="text-white/90 mb-8 text-lg">
+          <p className="text-base sm:text-lg text-white/90 mb-6 sm:mb-8">
             Comece sua jornada fitness com uma avaliação personalizada. 
             Insira seu número para continuar.
           </p>
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
             <FormField
               label="Número de Telefone"
               description="Digite seu número no formato: 55 + DDD + número"
             >
               <div className="relative">
-                <Phone className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white/50" />
+                <Phone className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 text-white/50 w-4 h-4 sm:w-5 sm:h-5" />
                 <input
                   type="tel"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="55 + DDD + número"
-                  className="w-full pl-12 pr-4 py-3 rounded-xl bg-white/10 border border-white/20
+                  className="w-full pl-10 sm:pl-12 pr-4 py-2.5 sm:py-3 rounded-xl 
+                    bg-white/10 border border-white/20
                     focus:border-[#FF5733] focus:ring-2 focus:ring-[#FF5733]/20
-                    transition-all duration-300 text-white placeholder-white/30"
+                    transition-all duration-300 text-white placeholder-white/30
+                    text-sm sm:text-base"
                   required
                 />
               </div>
@@ -98,8 +100,9 @@ export default function PhoneVerification() {
               type="submit"
               disabled={loading}
               className="w-full bg-gradient-to-r from-[#FF5733] to-[#ff6242] text-white 
-                py-3 rounded-xl font-semibold hover:scale-105 transition-all transform 
+                py-2.5 sm:py-3 rounded-xl font-semibold hover:scale-105 transition-all transform 
                 disabled:opacity-50 disabled:hover:transform-none
+                text-sm sm:text-base
                 flex items-center justify-center gap-2"
             >
               {loading ? 'Verificando...' : 'Começar Avaliação'}
@@ -107,9 +110,9 @@ export default function PhoneVerification() {
           </form>
         </div>
 
-        <div className="hidden md:flex flex-col items-center justify-center p-8">
-          <div className="bg-white/10 rounded-2xl p-8 backdrop-blur-lg border border-white/10">
-            <QrCode size={120} className="text-white mb-4" />
+        <div className="hidden md:flex flex-col items-center justify-center">
+          <div className="bg-white/10 rounded-xl sm:rounded-2xl p-6 sm:p-8 backdrop-blur-lg border border-white/10">
+            <QrCode size={100} className="text-white mb-4" />
             <div className="text-white/90 text-center">
               <p className="font-semibold mb-2">Avaliação Digital</p>
               <p className="text-sm">Processo 100% online e personalizado</p>
